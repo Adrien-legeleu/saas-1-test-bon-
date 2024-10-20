@@ -1,15 +1,17 @@
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import EmailProvider from "next-auth/providers/email"; // Correction ici
 
 import { prisma } from "./lib/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-// Assure-toi que c'est bien le chemin vers ton client Prisma
 
 const githubId = process.env.AUTH_GITHUB_ID;
 const githubSecret = process.env.AUTH_GITHUB_SECRET;
 const googleId = process.env.AUTH_GOOGLE_ID;
 const googleSecret = process.env.AUTH_GOOGLE_SECRET;
+const emailServer = process.env.EMAIL_SERVER;
+const emailFrom = process.env.EMAIL_FROM;
 
 if (!githubId || !githubSecret) {
   throw new Error(
@@ -21,9 +23,13 @@ if (!googleId || !googleSecret) {
     "googleId or googleSecret are not defined in the environment"
   );
 }
+if (!emailServer || !emailFrom) {
+  throw new Error(
+    "emailFrom or emailServer are not defined in the environment"
+  );
+}
 
 export const authConfig = {
-  // Utilisation du Prisma Adapter pour gérer les utilisateurs
   adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({
@@ -34,11 +40,15 @@ export const authConfig = {
       clientId: googleId,
       clientSecret: googleSecret,
     }),
+    EmailProvider({
+      // Utilisation d'EmailProvider
+      server: emailServer,
+      from: emailFrom,
+    }),
   ],
 
   callbacks: {
     async session({ session, user }: any) {
-      // Récupère l'ID de l'utilisateur depuis Prisma et l'ajoute à la session
       session.user.id = user.id;
       console.log("Session:", session);
       return session;
