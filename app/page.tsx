@@ -2,10 +2,14 @@
 import { getAuthSession } from "@/lib/auth";
 import LoginButton from "./components/LoginButton";
 
-import { User } from "./components/User";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const session = await getAuthSession();
+
+  if (session) {
+    redirect("/dashboard/notes");
+  }
 
   return (
     <section className="h-screen w-full flex flex-col items-center gap-12 justify-center">
@@ -32,7 +36,7 @@ export default async function Home() {
         reprehenderit suscipit atque distinctio a?
       </p>
 
-      {session ? <User /> : <LoginButton />}
+      <LoginButton />
     </section>
   );
 }
