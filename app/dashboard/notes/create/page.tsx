@@ -16,9 +16,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FilePenLine, File } from "lucide-react";
 
-export default function CreatePage() {
+export default async function CreatePage() {
   const router = useRouter();
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -31,6 +30,7 @@ export default function CreatePage() {
       toast.error("Erreur lors de la modification du compte");
     }
   };
+
   return (
     <Card>
       <form onSubmit={handleSubmit}>

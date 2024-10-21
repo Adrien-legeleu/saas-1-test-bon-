@@ -88,7 +88,7 @@ model Notes {
   description String?
   completed   Boolean? @default(false)
   createdAt   DateTime @default(now())
-  updateAt    DateTime @updatedAt
+  updatedAt   DateTime @updatedAt
   userId      String
   user        User     @relation(fields: [userId], references: [id])
 }
