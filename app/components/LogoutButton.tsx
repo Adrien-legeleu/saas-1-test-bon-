@@ -11,7 +11,7 @@ export default function LogoutButton() {
         className="flex bg-orange-500 hover:bg-orange-600 items-center gap-2"
         onClick={() => signOut({ callbackUrl: "/" })}
       >
-        <LogOut />
+        <LogOut className="text-white" />
         <span className="lg:block hidden">Déconnexion</span>
       </Button>
     </div>

@@ -26,7 +26,7 @@ export const updateUser = async (formDate: FormData) => {
         data: { name: userName },
       });
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error(
       "Une erreur est survenue lors de la modification de l'utilidateur",
       error

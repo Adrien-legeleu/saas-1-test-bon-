@@ -5,6 +5,7 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "emailVerified" DATETIME,
     "image" TEXT,
+    "stripeCurstomerId" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
 );
@@ -63,11 +64,29 @@ CREATE TABLE "Authenticator" (
     CONSTRAINT "Authenticator_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- CreateTable
+CREATE TABLE "Notes" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT,
+    "description" TEXT,
+    "completed" BOOLEAN DEFAULT false,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updateAt" DATETIME NOT NULL,
+    "userId" TEXT NOT NULL,
+    CONSTRAINT "Notes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_stripeCurstomerId_key" ON "User"("stripeCurstomerId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Authenticator_credentialID_key" ON "Authenticator"("credentialID");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Notes_id_key" ON "Notes"("id");
