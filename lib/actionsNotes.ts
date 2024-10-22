@@ -17,7 +17,7 @@ export const createNote = async (formData: FormData) => {
   try {
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
-    const completed = formData.get("completed") === "on";
+    const completed = formData.get("completed");
     const user = await getUser();
     const userid = user.id as string;
 
@@ -30,7 +30,7 @@ export const createNote = async (formData: FormData) => {
         userId: userid,
         title,
         description,
-        completed,
+        completed: completed == "on",
       },
     });
   } catch (error: any) {
@@ -58,4 +58,27 @@ export const deleteNote = async (id: string) => {
   });
 
   revalidatePath("/dashboard/notes");
+};
+
+export const getNote = async (id: string) => {
+  const note = prisma.notes.findUnique({
+    where: { id: id },
+  });
+  return note;
+};
+
+export const updateNote = async (formData: FormData, id: string) => {
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
+  const completed = formData.get("completed");
+
+  const note = await prisma.notes.update({
+    where: { id },
+    data: {
+      title,
+      completed: completed == "on",
+      description,
+    },
+  });
+  return note;
 };
