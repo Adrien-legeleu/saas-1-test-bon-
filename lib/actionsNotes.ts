@@ -1,7 +1,17 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { getUser } from "./actionsUsers";
 import { prisma } from "./prisma";
+type Note = {
+  id: string;
+  title: string | null;
+  description: string | null;
+  completed: boolean | null;
+  createdAt: Date;
+  updateAt: Date;
+  userId: string;
+};
 
 export const createNote = async (formData: FormData) => {
   try {
@@ -38,4 +48,14 @@ export const getAllnotes = async (userid: string) => {
     },
   });
   return data;
+};
+
+export const deleteNote = async (id: string) => {
+  await prisma.notes.delete({
+    where: {
+      id,
+    },
+  });
+
+  revalidatePath("/dashboard/notes");
 };
