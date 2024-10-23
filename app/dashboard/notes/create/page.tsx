@@ -15,7 +15,6 @@ import { createNote } from "@/lib/actionsNotes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 export default async function CreatePage() {
   const router = useRouter();
