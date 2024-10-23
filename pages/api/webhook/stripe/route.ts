@@ -39,7 +39,7 @@ export async function POST(req: Request) {
         currentPeriodStart: subscription.current_period_start,
         CurrentPeriodEnd: subscription.current_period_end,
         status: subscription.status,
-        planId: subscription.items.data[O].plan.id,
+        planId: subscription.items.data[0].plan.id,
         interval: String(subscription.items.data[0].plan.interval),
       },
     });
